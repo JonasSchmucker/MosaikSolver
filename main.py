@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from z3 import *
 import argparse
 import csv
@@ -48,7 +50,6 @@ def get_neighbors(matrix, row, col):
 def solve_level(level):
     solver = Solver()
     level_size = len(level)
-    print("Level size is " + str(level_size) + "x" + str(level_size))
     vars = [[Bool(f"var_{i}_{o}") for i in range(level_size)] for o in range(level_size)]
     
     for row_index, row in enumerate(level):
@@ -70,18 +71,19 @@ def main():
     args = handle_args()
 
     level = read_level(args.file)
+    print("Detected level size: " + str(len(level)) + "x" + str(len(level)))
     for row in level:
         for square in row:
             print(square if square != -1 else " ", end=" ")
         print()
-    print("done")
 
+    print()
+    
     solution = solve_level(level)
     for row in solution:
         for square in row:
             print("X" if square else "O", end=" ")
         print()
-    print("done")
 
 if __name__ == "__main__":
     main()
